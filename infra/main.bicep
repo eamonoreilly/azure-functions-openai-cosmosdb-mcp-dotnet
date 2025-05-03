@@ -51,7 +51,7 @@ var embedding = {
   modelName: !empty(embeddingModelName) ? embeddingModelName : 'text-embedding-3-small'
   deploymentName: !empty(embeddingDeploymentName) ? embeddingDeploymentName : 'embeddings'
   deploymentVersion: !empty(embeddingDeploymentVersion) ? embeddingDeploymentVersion : '1'
-  deploymentCapacity: embeddingDeploymentCapacity != 0 ? embeddingDeploymentCapacity : 80
+  deploymentCapacity: embeddingDeploymentCapacity != 0 ? embeddingDeploymentCapacity : 200
   dimensions: embeddingDimensions != 0 ? embeddingDimensions : 1536
 }
 
@@ -107,7 +107,7 @@ module cosmosdb './core/cosmosdb/cosmosdb.bicep' = {
   name: 'cosmosdb'
   scope: rg
   params: {
-    location: 'westus2'
+    location: location
     cosmosDbAccountName: !empty(cosmosDbAccountName) ? cosmosDbAccountName : '${abbrs.documentDBDatabaseAccounts}${resourceToken}'
     databaseName: cosmosDatabaseName
   }
