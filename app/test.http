@@ -1,0 +1,22 @@
+@host=http://localhost:7071
+
+### Import data in AI Search
+POST {{host}}/api/IngestData
+Content-Type: application/json
+
+{
+  "Text": "Contoso support incident 3455 is about incorrectly configured certificates. This prevented the correct SSL validatioin on the server and resulted in a certificate chain error. The resolution was to update the configuration in the server to have the right path to the certifiate in the chain registry.",
+  "Title": "Contoso3455:Reference:3455"
+}
+
+### Ask question of imported data
+POST {{host}}/api/Prompt
+Content-Type: application/json
+
+{
+  "question": "What is support incident 3455 about?",
+}
+
+# After importing data, you can ask the GitHub Copilot in Agent mode for information about this support incident.
+# Make sure to start either the local or remote functions MCP server in .vscode/mcp.json so the agent has access to the support incident tool.
+# Example: "What is support incident 3455 about?"
