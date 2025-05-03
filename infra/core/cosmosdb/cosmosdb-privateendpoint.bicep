@@ -38,7 +38,7 @@ resource cosmosdbPrivateDnsZone 'Microsoft.Network/privateDnsZones@2020-06-01' =
 // Virtual Network Links
 resource cosmosdbPrivateDnsZoneVirtualNetworkLink 'Microsoft.Network/privateDnsZones/virtualNetworkLinks@2020-06-01' = {
   parent: cosmosdbPrivateDnsZone
-  name: 'privatelink-link.documents.azure.com'
+  name: uniqueString(vnet.id)
   location: 'global'
   tags: tags
   properties: {
@@ -61,7 +61,7 @@ resource cosmosdbPrivateEndpoint 'Microsoft.Network/privateEndpoints@2021-08-01'
         properties: {
           privateLinkServiceId: cosmosdb.id
           groupIds: [
-            'cosmosdbService'
+            'SQL'
           ]
         }
       }
