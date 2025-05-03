@@ -42,12 +42,12 @@ else
     fi
 
     # Check and update Azure CosmosDB network rules
-    Rules=$(az cosmosdb show --resource-group "$ResourceGroup" --name "$CosmosDBResourceName" --query "networkRuleSet.ipRules" -o json)
+    Rules=$(az cosmosdb show --resource-group "$ResourceGroup" --name "$CosmosDBResourceName" --query "ipRules" -o json)
     IPExists=$(echo "$Rules" | jq -r --arg ip "$ClientIP" '.[] | select(.value == $ip) | .value')
 
     if [[ -z $IPExists ]]; then
         echo "Adding the client IP $ClientIP to the network rule of the Azure CosmosDB service $CosmosDBResourceName"
-        az cosmosdb update --resource-group "$ResourceGroup" --name "$CosmosDBResourceName" --ip-rules "$ClientIP" > /dev/null
+        az cosmosdb update --resource-group "$ResourceGroup" --name "$CosmosDBResourceName" --ip-range-filter "$ClientIP" > /dev/null
         CosmosDBResourceId=$(az cosmosdb show --resource-group "$ResourceGroup" --name "$CosmosDBResourceName" --query id -o tsv)
         az resource update --ids "$CosmosDBResourceId" --set properties.publicNetworkAccess="Enabled" > /dev/null
     else
